@@ -41,10 +41,10 @@ public class Fecha
     public Fecha(int nuevoDia, int nuevoMes, int nuevoAnho)
     {
         // Implementar este constructor
-        assert nuevoAnho >= 1582;
         dia = nuevoDia;
         mes = nuevoMes;
         anho = nuevoAnho;
+        assert repOK(): "No supera el invariante de clase.";
     }
     
     /**
@@ -77,6 +77,7 @@ public class Fecha
      */
     public void cambiarDia(int nuevoDia) {
         //Implementar este método
+        assert repOK(): "Viola el invariante de clase";
         dia = nuevoDia;
     }
     
@@ -86,6 +87,7 @@ public class Fecha
      */
     public void cambiarMes(int nuevoMes) {
         //Implementar este método
+        assert repOK(): "Viola el invariante de clase";
         mes = nuevoMes;
     }
     
@@ -95,27 +97,43 @@ public class Fecha
      */
     public void cambiarAnho(int nuevoAnho) {
         //Implementar este método
+        assert repOK(): "Viola el invarianate de clase";
         anho = nuevoAnho;
     }
     
     /**
      * Chequea si la fecha es igual a otra fecha dada
-     
+     **/
     public boolean equals(Fecha otraFecha) {
         // Implementar este método, reemplazando la línea siguiente 
         boolean equals = false;
-        if (otraFecha == Fecha){
+        if (this.dia == otraFecha.dia && this.mes == otraFecha.mes && this.anho == otraFecha.anho){
             equals = true;
         }
         return equals;
     }
-    */
+    
     /**
      * Chequea si la fecha es anterior a otra fecha dada
      */
     public boolean esAnterior(Fecha otraFecha) {
         // Implementar este método, reemplazando la línea siguiente
-        return true;
+        if((this.dia == otraFecha.dia || this.dia != otraFecha.dia) && 
+        ((this.mes < otraFecha.mes && this.anho == otraFecha.anho)|| this.mes == otraFecha.mes && this.anho < otraFecha.anho)){
+            return true;
+            }   else if((this.dia < otraFecha.dia) && ((this.mes == otraFecha.mes && this.anho == otraFecha.anho) || 
+                        this.mes == otraFecha.mes && this.anho < otraFecha.anho)){
+                    return true;
+                    }   else if((this.dia < otraFecha.dia) && ((this.mes < otraFecha.mes && this.anho == otraFecha.anho) || 
+                        this.mes < otraFecha.mes && this.anho < otraFecha.anho)){
+                        return true;
+                        }   else if((this.dia != otraFecha.dia || this.mes != otraFecha.mes) && this.anho < otraFecha.anho){
+                            return true;
+                            }   else if((this.dia != otraFecha.dia || this.dia == otraFecha.dia) && (this.mes < otraFecha.mes
+                                        && (this.anho < otraFecha.anho || this.anho < otraFecha.anho))){
+                                            return true;
+                                        }                            
+        return false;
     }
     
     /**
@@ -171,5 +189,15 @@ public class Fecha
     
     public String toString(){
         return dia + "/" + mes + "/" + anho;
+    }
+
+    public boolean repOK(){
+        if(dia < 0){
+            return false;
+        } else if(mes < 0){
+            return false;
+        } else if(anho < 1582){
+            return false
+                }
     }
 }
